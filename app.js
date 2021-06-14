@@ -63,3 +63,62 @@ const galleryItems = [
     description: 'Lighthouse Coast Sea',
   },
 ];
+const galleryList = document.querySelector('.js-gallery');
+const imageGallery = createImegeGalleryMarkup(galleryItems);
+const modalContainer = document.querySelector('.lightbox');
+const closeModalBtn = document.querySelector('[data-action="close-lightbox"]');
+const lightboxImageRef = document.querySelector('.lightbox__image');
+
+galleryList.insertAdjacentHTML('beforeend', imageGallery);
+galleryList.addEventListener('click', onGallaryListClick);
+closeModalBtn.addEventListener('click', onCloseModal);
+
+function createImegeGalleryMarkup(galleryItems) {
+  return galleryItems.map(({preview, original, description}) => {
+    return `
+    <li class="gallery__item">
+          <a
+              class="gallery__link"
+              href="${original}"
+          >
+             <img
+                class="gallery__image"
+                src="${preview}"
+                data-source="${original}"
+                alt="${description}"
+             />
+          </a>
+      </li>
+      `;
+  }).join('');  
+};
+
+function onGallaryListClick(evt) {
+  evt.preventDefault();
+ 
+  if (evt.target === evt.currentTarget) {
+    return;
+  }
+  
+  modalContainer.classList.add('is-open');
+  lightboxImageRef.src = evt.target.getAttribute('data-source');
+  lightboxImageRef.alt = evt.target.alt;
+ 
+};
+
+function onCloseModal() {
+  modalContainer.classList.remove('is-open');
+  lightboxImageRef.src = '';
+  lightboxImageRef.alt = '';
+}
+
+console.log(lightboxImageRef);
+
+
+
+
+ 
+
+
+
+ 
